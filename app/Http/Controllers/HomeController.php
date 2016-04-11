@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Tweet;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -15,6 +17,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        if(Auth::check()) {
+            $this->user_id = Auth::user()->id;
+        }
     }
 
     /**
@@ -24,6 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $tweets = Tweet::where('user_id',$this->user_id)->paginate(15);                
+        return view('home', ['tweets' => $tweets]);        
     }
 }
