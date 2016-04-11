@@ -3,14 +3,22 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
+        <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2">
+            @if(!Auth::user())
+                <div class="panel panel-default">
+                    <div class="panel-heading">Dashboard</div>
+                    <div class="panel-body">
+                        You are logged in!
+                    </div>
+                </div>
+            @endif
+            @foreach ($tweets as $tweet)
+            <div class="panel panel-default">                
                 <div class="panel-body">
-                    You are logged in!
+                    {{$tweet->tweet}}
                 </div>
             </div>
+            @endforeach
         </div>
     </div>
 </div>
