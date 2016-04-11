@@ -12,14 +12,18 @@
                     </div>
                 </div>
             @endif
+
             @foreach ($tweets as $tweet)
             <div class="panel panel-default">                
                 <div class="panel-body">
+                    {{$tweet}}
                     {{$tweet->tweet}}
+                    {{$tweet->handle}}
                 </div>
             </div>
-            @endforeach
-        </div>
-    </div>
+            @endforeach 
+            {{ $tweets->appends(Request::except('page'))->links()}}           
+        </div>        
+    </div>    
 </div>
 @endsection

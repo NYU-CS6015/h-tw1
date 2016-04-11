@@ -15,7 +15,7 @@ class UsersSeederTable extends Seeder
         $limit = 10;
 
         for($i=0;$i<$limit;$i++) {
-            DB::table('users')->insert([
+            DB::table('tweets')->insert([
                 'user_id'=>$faker->numberBetween($min = 1, $max = 10),
                 'tweet' => $faker->text($maxNbChars = 50),
             ]);

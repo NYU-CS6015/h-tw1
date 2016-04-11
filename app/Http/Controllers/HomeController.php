@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tweets = Tweet::where('user_id',$this->user_id)->paginate(15);                
+        $tweets = Tweet::where('user_id',$this->user_id)->paginate(10);                
         return view('home', ['tweets' => $tweets]);        
     }
 }

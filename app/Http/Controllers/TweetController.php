@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\Tweet;
 
+use App\User;
+
 use Auth;
 
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +24,8 @@ class TweetController extends Controller
 	}
 
 	public function index() {		        
-		$tweets = Tweet::where('user_id',$this->user_id)->paginate(5);				
+		// $tweets = Tweet::where('user_id',$this->user_id)->paginate(10);				
+		$tweets = User::with('tweets')->get();
 		return view('home', ['tweets' => $tweets]);
 	}
 
