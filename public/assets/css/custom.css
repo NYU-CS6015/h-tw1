@@ -1,0 +1,30 @@
+body {
+	background: url(../img/header-bg.jpg) no-repeat center center;
+	font-family: 'Raleway', sans-serif;
+    width: 100%;
+    padding: 20px 10px 60px 10px;
+    height: 100vh;
+    overflow-x: hidden;
+    background-attachment: fixed; 
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;    
+}
+
+.navbar-default {
+  background: none;
+  border:none;
+}
+
+.interaction:focus {
+    outline:none;
+}
+
+.jumbo-trans {
+    background: transparent;
+}
+
+.add-pad {
+    padding:15px;
+}

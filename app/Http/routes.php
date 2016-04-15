@@ -12,11 +12,14 @@
 */
 
 Route::get('/', function () {
-	return view('welcome');    
+	if(!Auth::user()) {
+		return view('welcome');    
+	} else {
+		
+	}
 });
 
 Route::auth();
-
 Route::get('/home', 'HomeController@index');
 Route::get('/create', 'TweetController@create');
 Route::post('/create', 'TweetController@store');
