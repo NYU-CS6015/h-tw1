@@ -15,11 +15,15 @@ Route::get('/', function () {
 	if(!Auth::user()) {
 		return view('welcome');    
 	} else {
-		
+		return redirect()->action('HomeController@index');
 	}
 });
 
 Route::auth();
 Route::get('/home', 'HomeController@index');
+Route::get('/user/{id}', 'UserController@show');
+Route::get('/follow/{id}', 'UserController@follow');
+Route::get('/user/{id}/following', 'UserController@getFollowing');
+Route::get('/user/{id}/followers', 'UserController@getFollowers');
 Route::get('/create', 'TweetController@create');
 Route::post('/create', 'TweetController@store');

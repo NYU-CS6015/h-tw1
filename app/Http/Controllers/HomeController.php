@@ -29,7 +29,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tweets = Tweet::where('user_id',$this->user_id)->paginate(10);                
-        return view('home', ['tweets' => $tweets]);        
+        $allTweets = \DB::table('tweets')
+            ->join('users', 'tweets.user_id', '=', 'users.id')
+            ->orderBy('tweets.created_at','DESC')
+            ->get();
+
+        $myTweets = Tweet::where('user_id',$this->user_id)->orderBy('created_at','DESC')->get(); 
+        $mytweetCount = $myTweets->count();
+
+        $followers = \DB::table('follow_user')            
+            ->where('follows_id',Auth::user()->id)
+            ->get();  
+        $followers = count($followers);
+
+        $following = \DB::table('follow_user')            
+            ->where('user_id',Auth::user()->id)
+            ->get();  
+        $following = count($following);
+        
+        return view('home', ['tweets' => $allTweets, 'tweetCount' => $mytweetCount, 'followers' => $followers, 'following' => $following]);        
     }
 }

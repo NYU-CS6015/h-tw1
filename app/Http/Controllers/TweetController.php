@@ -19,12 +19,11 @@ class TweetController extends Controller
     public function __construct() {
 		$this->middleware('auth');
 		if(Auth::check()) {
-			$this->user_id = Auth::user()->id;
+			$this->user_id = Auth::user()->id;			
 		}
 	}
 
-	public function index() {		        
-		// $tweets = Tweet::where('user_id',$this->user_id)->paginate(10);				
+	public function index() {		        		
 		$tweets = User::with('tweets')->get();
 		return view('home', ['tweets' => $tweets]);
 	}
@@ -38,7 +37,7 @@ class TweetController extends Controller
             'tweet' => 'required|max:140',
         ]);	        				
         if ($validator->fails()) {
-            return redirect('/create')->withInput()->withErrors($validator);
+            return redirect('/home')->withInput()->withErrors($validator);
         }
 
 		$tweet = new Tweet;
