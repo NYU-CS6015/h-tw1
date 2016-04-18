@@ -8,18 +8,17 @@ use Validator;
 use Auth;
 
 class ProfileController extends Controller
-{
-    public function __construct(User $user) {
-    	$this->following = count($user->following()->get());
-    	$this->followers = count($user->followers()->get());
-    }
-
-    public function index(User $user) {    	
-    	return view('profile.index',['following'=>$this->following,'followers'=>$this->followers,'user'=>$user]);
+{    
+       public function index(User $user) {    	
+        $following = count($user->following()->get());
+        $followers = count($user->followers()->get());        
+    	return view('profile.index',['following'=>$following,'followers'=>$followers,'user'=>$user]);
     }
 
     public function create(User $user) {
-    	return view('profile.create',['following'=>$this->following,'followers'=>$this->followers, 'user'=>$user]);
+        $following = count($user->following()->get());
+        $followers = count($user->followers()->get());        
+    	return view('profile.create',['following'=>$following,'followers'=>$followers, 'user'=>$user]);
     }
 
     public function store(Request $request,User $user) {

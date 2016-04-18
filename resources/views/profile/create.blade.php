@@ -3,7 +3,10 @@
 @section('content')
 <div class="container">		
 	<div class="row">
-		<div class="col-lg-2 col-md-2">		
+		<div class="col-lg-2 col-md-2">	
+		<center>
+			<img src="https://avatars3.githubusercontent.com/u/8087061?v=3&s=96" class="twPc-avatarImg">	
+		</center><br>
 		</div>
 		<div class="col-lg-10 col-md-10">
 			<form class="form-horizontal" role="form" method="POST" action="{{route('user.save.profile',$user)}}">
@@ -34,9 +37,9 @@
 					<label class="control-label col-sm-2" for="location">Location:</label>
 					<div class="col-sm-10"> 
 						<input type="text" value="{{$user->location}}" class="form-control" id="location" name="location" placeholder="Location">
-						@if ($errors->has('handle'))
+						@if ($errors->has('location'))
 	                        <span class="help-block">
-	                            <strong>{{ $errors->first('handle') }}</strong>
+	                            <strong>{{ $errors->first('location') }}</strong>
 	                        </span>
 	                    @endif
 					</div>					
