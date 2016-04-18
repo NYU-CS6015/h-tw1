@@ -24,7 +24,7 @@ class TweetController extends Controller
 	}
 
 	public function index() {		        		
-		$tweets = User::with('tweets')->get();
+		$tweets = User::with('tweets')->orderby('tweets.created_at','DESC')->get();
 		return view('home', ['tweets' => $tweets]);
 	}
 
@@ -32,7 +32,7 @@ class TweetController extends Controller
 		return view('tweets.new');
 	}
 
-	public function store(Request $request) {
+	public function store(Request $request) {		
 		$validator = Validator::make($request->all(), [
             'tweet' => 'required|max:140',
         ]);	        				
@@ -45,6 +45,6 @@ class TweetController extends Controller
         $tweet->user_id = Auth::user()->id;        
         $tweet->save();
 
-        return redirect('home');
+        return redirect(route('user.index',$this->user_id));
 	}
 }

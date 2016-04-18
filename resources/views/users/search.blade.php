@@ -2,15 +2,15 @@
 
 @section('content')
 <div class="container">
-    @if (count($following) == 0)
+    @if (count($users)==0)
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3">
-                <p class="text-center">You are not following anyone!</p>
+                <p class="text-center">No users found!</p>
             </div>
         </div>
     @else
         <div class="row">    
-            @foreach($following as $user)
+            @foreach($users as $user)
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">          
                 <div class="twPc-div">
                     <a class="twPc-bg twPc-block"></a>

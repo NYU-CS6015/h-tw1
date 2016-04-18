@@ -20,10 +20,46 @@ Route::get('/', function () {
 });
 
 Route::auth();
-Route::get('/home', 'HomeController@index');
-Route::get('/user/{id}', 'UserController@show');
-Route::get('/follow/{id}', 'UserController@follow');
+
+/*
+ * Handle timeline display
+ */
+Route::get('/home', 'HomeController@index')->name('user.timeline');
+
+/*
+ * Handle user info + tweets display
+ */
+Route::get('/user/{user}', 'UserController@index')->name('user.index');
+
+/*
+ * Handle user search
+ */
+Route::post('/user/search', 'UserController@search')->name('user.search');
+
+/*
+ * Handle user profile
+ */
+Route::get('user/{user}/profile', 'ProfileController@index')->name('user.profile');
+Route::get('user/{user}/profile/edit', 'ProfileController@create')->name('user.edit.profile');
+Route::post('user/{user}/profile', 'ProfileController@store')->name('user.save.profile');
+
+/*
+ * Handle user follow and unfollow
+ */
+Route::get('/user/{user}/follow', 'UserController@follow')->name('user.follow');
+Route::get('/user/{user}/unfollow', 'UserController@unfollow')->name('user.unfollow');
+
+/*
+ * Handle fetching following and followers
+ */
 Route::get('/user/{id}/following', 'UserController@getFollowing');
 Route::get('/user/{id}/followers', 'UserController@getFollowers');
-Route::get('/create', 'TweetController@create');
-Route::post('/create', 'TweetController@store');
+
+/*
+ * Handle creation of tweets
+ */
+Route::post('/create', 'TweetController@store')->name('user.create.tweet');
+Route::post('/create/first', 'TweetController@store')->name('user.create.first.tweet');
+
+
+

@@ -104,3 +104,11 @@ a.twitter-name {
     text-decoration: none;
     color: black;
 }
+
+.trans-panel {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    background: none !important;
+    border: none !important;
+}
+

@@ -5,48 +5,35 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Tweet;
+use App\User;
 use Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
         if(Auth::check()) {
-            $this->user_id = Auth::user()->id;
+            $this->user = Auth::user();
         }
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $allTweets = \DB::table('tweets')
-            ->join('users', 'tweets.user_id', '=', 'users.id')
-            ->orderBy('tweets.created_at','DESC')
-            ->get();
-
-        $myTweets = Tweet::where('user_id',$this->user_id)->orderBy('created_at','DESC')->get(); 
-        $mytweetCount = $myTweets->count();
-
-        $followers = \DB::table('follow_user')            
-            ->where('follows_id',Auth::user()->id)
-            ->get();  
-        $followers = count($followers);
-
-        $following = \DB::table('follow_user')            
-            ->where('user_id',Auth::user()->id)
-            ->get();  
-        $following = count($following);
+    public function index(Request $request) {        
+        if(count(Auth::user()->following()->get())!=0) {            
+            $tweets = User::join('tweets','users.id','=','tweets.user_id')
+                        ->whereIn('tweets.user_id',$request->user()->following()->lists('users.id')->push($this->user->id))
+                        ->orderBy('tweets.created_at', 'desc')
+                        ->get();            
+            $tweetCount = count(Tweet::with('users')->where('user_id','=',$this->user->id)->get());        
+            $following = $this->user->following;
+            $followers = $this->user->followers;            
+            return view('home', ['tweets' => $tweets, 'count'=>$tweetCount, 'user'=>$this->user, 'following'=>$following,'followers'=>$followers]);
+        } else {
+            $tweets = User::join('tweets','users.id','=','tweets.user_id')->where('tweets.user_id','=',$this->user->id)->orderBy('tweets.created_at','DESC')->get();                        
+            $tweetCount = count($tweets);
+            $following = $this->user->following;
+            $followers = $this->user->followers;    
+            return view('home', ['tweets' => $tweets, 'count'=> $tweetCount, 'user'=>$this->user, 'following'=>$following,'followers'=>$followers]);
+        }
         
-        return view('home', ['tweets' => $allTweets, 'tweetCount' => $mytweetCount, 'followers' => $followers, 'following' => $following]);        
     }
 }
